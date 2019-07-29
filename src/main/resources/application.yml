@@ -1,0 +1,30 @@
+server:
+  port: 9998
+
+#euraka client
+eureka:
+  client:
+    service-url:
+      defaultZone: http://39.98.254.247:7001/eureka/,http://39.98.254.247:7002/eureka/,http://39.98.254.247:7003/eureka/
+  instance:
+    instance-id: gateway-zuul
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: eureka-client-zuul
+#api网关 分发
+zuul:
+  routes:
+    #/api-a/ 开头匹配到service-producer
+    api-a:
+      path: /api-a/**
+      serviceId: eureka-client-springboot
+    #/api-b/ 开头匹配到service-producer
+    api-b:
+      path: /api-b/**
+      serviceId: eureka-client-springcloud
+    #匹配/github/直接重定向到https://github.com/
+    github:
+      path: /github/**
+      url: https://cogithub.m/
